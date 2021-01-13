@@ -12,17 +12,21 @@ function Promise(executor) {
         // 1.修改对象状态 promiseState
         // 2.修改对象结果值 promiseResult
 
-        self.PromiseState = 'fulfilled';
-        self.PromiseResult = data;
+        if (self.PromiseState === 'pending') {
+            self.PromiseState = 'fulfilled';
+            self.PromiseResult = data;
+        }
     }
 
     // reject
     function reject(data) {
         // 1.修改对象状态 promiseState
         // 2.修改对象结果值 promiseResult
+        if(self.PromiseState === 'pending') {
+            self.PromiseState = 'rejected';
+            self.PromiseResult = data;
+        }
 
-        self.PromiseState = 'rejected';
-        self.PromiseResult = data;
     }
 
     try {
