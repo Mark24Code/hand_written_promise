@@ -25,8 +25,14 @@ function Promise(executor) {
         self.PromiseResult = data;
     }
 
-    // executor 是同步执行的,直接执行就好
-    executor(resolve, reject);
+    try {
+        // executor 是同步执行的,直接执行就好
+        executor(resolve, reject);
+    } catch (error) {
+        // 处理抛出异常
+        reject(error)
+    }
+
     
 }
 
