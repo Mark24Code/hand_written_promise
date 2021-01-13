@@ -1,4 +1,4 @@
 # 手写Promise
 
 
-`node main.js`
+浏览器运行 index.html
