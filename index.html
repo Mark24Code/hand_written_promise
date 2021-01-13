@@ -19,13 +19,14 @@
 
 
         // 执行then方法
-        p.then(value => {
+        // feature: 同步任务then的返回结果
+       const result = p.then(value => {
             console.log('1:',value)
         }, reason => {
             console.warn(reason)
         })
 
-        console.log(p)
+        console.log(result)
     </script>
 </body>
 </html>
