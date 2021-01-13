@@ -11,22 +11,27 @@
     <script>
 
         
-        // feature  支持异步的任务回调执行
         let p = new Promise((resolve, reject) => {
             setTimeout(() => {
-                // resolve('ok')
-                reject('errrpr')
+                resolve('ok')
+                // reject('errrpr')
             }, 1000);
         })
 
-        // 异步任务晚些执行，会提前执行 p.then
-        // 这时候还是pending的promise
-        // then调用会失败
+        // feature  支持指定多个回调并且执行
+
         p.then(value => {
-            console.log(value)
+            console.log('1:',value)
         }, reason => {
             console.warn(reason)
         })
+
+        p.then(value => {
+            console.log('2:',value)
+        }, reason => {
+            console.warn(reason)
+        })
+
 
         console.log(p)
     </script>
