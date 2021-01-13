@@ -47,19 +47,49 @@ function Promise(executor) {
 }
 
 Promise.prototype.then = function (onResolved, onRejected) {
-    if(this.PromiseState === 'fulfilled') {
-        onResolved(this.PromiseResult)
-    } 
+    // 保持这边返回的也是一个Promise
+    // 这里的this是绑定在外部的this上，也就是未来的实例 p
+    const self = this;
 
-    if(this.PromiseState === 'rejected') {
-        onrejectionhandled(this.PromiseResult)
-    }
-    
-    // 异步
-    if (this.PromiseState === 'pending') {
-        this.callbacks.push({
-            onResolved: onResolved,
-            onRejected: onRejected
-        })
-    }
+    // p 的返回值onResolved，onRejected，会影响到本返回Promise的值
+    // 所以，先要获得 onResolved的返回值，根据返回值判断，再修改自己的状态
+    return new Promise((resolve,reject) => {
+
+        if (self.PromiseState === 'fulfilled') {
+
+            try {
+                // 获得回调结果
+                let result = onResolved(self.PromiseResult)
+                // 判断类型
+                if (result instanceof Promise) {
+                    // 如果是Promise的对象
+
+                    result.then(v => {
+                        resolve(v)
+                    }, r => {
+                        reject(r)
+                    })
+                } else {
+                    // 如果单纯传值，就直接resolve值
+                    resolve(result)
+                }
+
+            } catch (error) {
+                reject(error)
+            }
+        }
+
+        if (self.PromiseState === 'rejected') {
+            onrejectionhandled(self.PromiseResult)
+        }
+
+        // 异步
+        if (self.PromiseState === 'pending') {
+            self.callbacks.push({
+                onResolved: onResolved,
+                onRejected: onRejected
+            })
+        }
+
+    })
 }

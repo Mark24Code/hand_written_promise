@@ -12,16 +12,21 @@
 
         
         let p = new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve('ok')
-            }, 1000);
+            resolve("OK")
         })
 
 
         // 执行then方法
         // feature: 同步任务then的返回结果
+        // 如果这里返回 非Promise值，则返回一个 fulfilled的Promise
+        // 如果这里返回的是一个Promise就返回这个Promise
        const result = p.then(value => {
             console.log('1:',value)
+            // return 123 // 测试用例
+            // throw "fail" // 测试用例
+
+            return new Promise(()=> {}); // 测试用例一个pending的
+
         }, reason => {
             console.warn(reason)
         })
