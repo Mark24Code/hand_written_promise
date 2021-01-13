@@ -4,7 +4,7 @@ function Promise(executor) {
     this.PromiseState = 'pending';
     this.PromiseResult = null;
 
-    this.callback = {};
+    this.callbacks = [];
 
 
     // 保存this值指向实例，保留给resolve，reject
@@ -22,9 +22,9 @@ function Promise(executor) {
         self.PromiseState = 'fulfilled';
         self.PromiseResult = data;
         // 应该去调用 then
-        if(self.callback.onResolved) {
-            self.callback.onResolved(data)
-        }
+        self.callbacks.forEach(item => {
+            item.onResolved(data)
+        })
     }
 
     // reject
@@ -38,9 +38,9 @@ function Promise(executor) {
         self.PromiseState = 'rejected';
         self.PromiseResult = data;
         // 应该去调用 then
-        if (self.callback.onRejected) {
-            self.callback.onRejected(data)
-        }
+        self.callbacks.forEach(item => {
+            item.onRejected(data)
+        })
     }
 
     try {
@@ -73,10 +73,10 @@ Promise.prototype.then = function (onResolved, onRejected) {
         // 改变状态的 onResolved、onRejected后面又如何调用then呢？
         // 为了让他们可以调用then
         // 要保存回调函数
-        this.callback = {
+        this.callbacks.push({
             onResolved: onResolved,
             onRejected: onRejected
-        }
+        })
     }
 }
 
