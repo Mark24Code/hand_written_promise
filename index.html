@@ -9,11 +9,18 @@
 
     <script src="./promise.js"></script>
     <script>
+
+        
+        // feature  支持异步的任务回调执行
         let p = new Promise((resolve, reject) => {
-            resolve('ok')
+            setTimeout(() => {
+                resolve('ok')
+            }, 1000);
         })
 
-        // feature  执行  then函数
+        // 异步任务晚些执行，会提前执行 p.then
+        // 这时候还是pending的promise
+        // then调用会失败
         p.then(value => {
             console.log(value)
         }, reason => {
