@@ -40,7 +40,17 @@ function Promise(executor) {
     
 }
 
-Promise.prototype.then = function (onResolve, onReject) {
+// 不同的状态对应不同的回调函数
+// 调用then的是实例，所以可以用this
+// 并且可以传入回调的值
+Promise.prototype.then = function (onResolve, onRejected) {
+    if(this.PromiseState === 'fulfilled') {
+        onResolve(this.PromiseResult)
+    } 
+
+    if(this.PromiseState === 'rejected') {
+        onrejectionhandled(this.PromiseResult)
+    }
     
 }
 
