@@ -1,6 +1,5 @@
 function Promise(executor) {
 
-    // 添加属性
     this.PromiseState = 'pending';
     this.PromiseResult = null;
 
@@ -12,16 +11,12 @@ function Promise(executor) {
 
     //resolve 和 reject会改变状态
     function resolve(data) {
-        // 1.修改对象状态 promiseState
-        // 2.修改对象结果值 promiseResult
-
         if(self.PromiseState !== 'pending') {
             return
         }
 
         self.PromiseState = 'fulfilled';
         self.PromiseResult = data;
-        // 应该去调用 then
         self.callbacks.forEach(item => {
             item.onResolved(data)
         })
@@ -29,15 +24,12 @@ function Promise(executor) {
 
     // reject
     function reject(data) {
-        // 1.修改对象状态 promiseState
-        // 2.修改对象结果值 promiseResult
         if (self.PromiseState !== 'pending') {
             return
         }
 
         self.PromiseState = 'rejected';
         self.PromiseResult = data;
-        // 应该去调用 then
         self.callbacks.forEach(item => {
             item.onRejected(data)
         })
@@ -54,9 +46,6 @@ function Promise(executor) {
     
 }
 
-// 不同的状态对应不同的回调函数
-// 调用then的是实例，所以可以用this
-// 并且可以传入回调的值
 Promise.prototype.then = function (onResolved, onRejected) {
     if(this.PromiseState === 'fulfilled') {
         onResolved(this.PromiseResult)
@@ -68,17 +57,9 @@ Promise.prototype.then = function (onResolved, onRejected) {
     
     // 异步
     if (this.PromiseState === 'pending') {
-        // 应该是pending的时候就不调用
-        // 改变状态的时候就去调用
-        // 改变状态的 onResolved、onRejected后面又如何调用then呢？
-        // 为了让他们可以调用then
-        // 要保存回调函数
         this.callbacks.push({
             onResolved: onResolved,
             onRejected: onRejected
         })
     }
 }
-
-
-// module.exports = Promise;

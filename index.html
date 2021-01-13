@@ -14,25 +14,16 @@
         let p = new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve('ok')
-                // reject('errrpr')
             }, 1000);
         })
 
-        // feature  支持指定多个回调并且执行
 
+        // 执行then方法
         p.then(value => {
             console.log('1:',value)
         }, reason => {
             console.warn(reason)
         })
-
-        // 目前，第二个吧第一个覆盖了
-        p.then(value => {
-            console.log('2:',value)
-        }, reason => {
-            console.warn(reason)
-        })
-
 
         console.log(p)
     </script>
