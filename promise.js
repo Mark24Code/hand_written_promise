@@ -111,8 +111,41 @@ Promise.prototype.then = function (onResolved, onRejected) {
             // then里面的内容等于延迟计算了，先保存起来
             // 总实例的状态决定了何时调用
             self.callbacks.push({
-                onResolved: onResolved,
-                onRejected: onRejected
+                onResolved: function () {
+                    try {
+                        let result = onResolved(self.PromiseResult);
+                        if (result instanceof Promise) {
+                            result.then(v => {
+                                // 控制反转
+                                resolve(v)
+                            }, r => {
+                                reject(r)
+                            })
+                        } else {
+                            resolve(result)
+                        }
+                    } catch (error) {
+                        reject(error)
+                    }
+
+                },
+                onRejected: function () {
+                    try {
+                        let result = onRejected(self.PromiseResult);
+                        if (result instanceof Promise) {
+                            result.then(v => {
+                                // 控制反转
+                                resolve(v)
+                            }, r => {
+                                reject(r)
+                            })
+                        } else {
+                            resolve(result)
+                        }
+                    } catch (error) {
+                        reject(error)
+                    }
+                }
             })
         }
 

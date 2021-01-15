@@ -12,7 +12,10 @@
 
         
         let p = new Promise((resolve, reject) => {
-            resolve("OK")
+            
+            setTimeout(() => {
+                resolve("OK")
+            }, 1000);
         })
         console.log(p)
 
@@ -30,7 +33,6 @@
             // throw "fail" // 测试用例
 
             // return new Promise(()=> {}); // 测试用例一个pending的
-
         }, reason => {
             console.warn(reason)
         })
