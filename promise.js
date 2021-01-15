@@ -12,9 +12,17 @@ function Promise(executor) {
     //resolve 和 reject会改变状态
     function resolve(data) {
         if(self.PromiseState !== 'pending') {
+            // 状态只能改变一次
+            // 本质上是简化复杂度
             return
         }
-
+        
+        // 关键理解
+        // 本质上这里 resolve就是一个回调而已
+        // Promise是利用了一种回调，取代了原来简单的回调，增加心智负担
+        // Promise只是解决then的问题，解决回调地狱，不是消灭回调
+        // resolve,reject就是回调
+        // 这种封装其实并不高级
         self.PromiseState = 'fulfilled';
         self.PromiseResult = data;
         self.callbacks.forEach(item => {
@@ -46,6 +54,14 @@ function Promise(executor) {
     
 }
 
+// 关键理解
+// then必须书写出来
+// 书写出来就会执行，then的首次执行相当于预存了执行方法
+// 如果 Promise的 resolve、reject延迟执行实际上是在某个时机，执行了预存then方法
+
+// 只有在promise实例中，then的值，才是传递值
+// 想要利用传递的值，需要在这里
+// then就是一种回调了
 Promise.prototype.then = function (onResolved, onRejected) {
     // 保持这边返回的也是一个Promise
     // 这里的this是绑定在外部的this上，也就是未来的实例 p
@@ -55,6 +71,11 @@ Promise.prototype.then = function (onResolved, onRejected) {
     // 所以，先要获得 onResolved的返回值，根据返回值判断，再修改自己的状态
     return new Promise((resolve,reject) => {
 
+        // 这里其实是难理解的部分
+        // 本质上利用了闭包
+        // 老的实例方法then正在根据老实例的状态，尝试返回一个新的Promise
+        // 这里是一个新老交接的逻辑
+        // 如此这般便可以形成链条式调用的基础
         if (self.PromiseState === 'fulfilled') {
 
             try {
@@ -85,6 +106,10 @@ Promise.prototype.then = function (onResolved, onRejected) {
 
         // 异步
         if (self.PromiseState === 'pending') {
+
+            // onResolved,onRejected 就是then里面的书写内容
+            // then里面的内容等于延迟计算了，先保存起来
+            // 总实例的状态决定了何时调用
             self.callbacks.push({
                 onResolved: onResolved,
                 onRejected: onRejected
