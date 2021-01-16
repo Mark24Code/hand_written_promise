@@ -1,0 +1,24 @@
+{
+  "name": "handy_promise",
+  "version": "1.0.0",
+  "description": "",
+  "main": "promise.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mark24Code/handy_promise.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mark24Code/handy_promise/issues"
+  },
+  "homepage": "https://github.com/Mark24Code/handy_promise#readme",
+
+  "devDependencies": {
+    "promises-aplus-tests": "*"
+  },
+  "scripts": {
+    "test": "run-my-own-tests && promises-aplus-tests test/my-adapter"
+  }
+}

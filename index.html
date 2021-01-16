@@ -12,13 +12,15 @@
 
         
         let p = new Promise((resolve,reject)=>{
-              resolve("p ok")
+              reject("p ok")
               console.log('1111')
         });
 
-        p.then((resolve) => {
-            console.log('2222')
-        })
+        p.then(resolve => {
+            console.log('2222-ok')
+        }, reason => {
+            console.log("222-fail")
+         })
 
         console.log('33333')
     </script>
