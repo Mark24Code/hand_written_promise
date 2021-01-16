@@ -179,3 +179,20 @@ Promise.all = function (promises = []) {
         }
     })
 }
+
+
+
+Promise.race = function (promises = []) {
+    return new Promise((resolve, reject) => {
+
+        for (let i = 0; i < promises.length; i++) {
+            promises[i].then(v => {
+                // 第一个结果就是成功
+                // then本来就是在对方成功之后才会被调用。
+                resolve(v)
+            }, r => {
+                reject(r)
+            })
+        }
+    })
+}

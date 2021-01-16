@@ -12,19 +12,19 @@
 
         
         let p = new Promise((resolve,reject)=>{
-            resolve("p ok")
-        });
-
-        let p1 = Promise.resolve("p1 ok");
-
-        let p2 = new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve("p2 ok")
+              setTimeout(() => {
+                resolve("p ok")
             }, 1000);
         });
 
-        console.log(Promise.all)
-        const results = Promise.all([p, p1, p2]);
+        let p11 = Promise.reject("p11 fail");
+
+        let p1 = Promise.resolve("p1 ok");
+        let p2 = new Promise((resolve, reject) => {
+            resolve("p2 ok")
+        });
+
+        const results = Promise.race([p, p1, p11, p2]);
 
         console.log(results)
     </script>
