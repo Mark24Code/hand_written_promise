@@ -19,9 +19,16 @@
             // console.log('---main')
             // console.log(result)
             // console.log('---main end--')
-            return new Promise((resolve,reject) => {
-                resolve("failfff")
-            })
+            try {
+                const r = await Promise.resolve("kkkk")
+                console.log(r)
+
+                const t = await Promise.reject("GGGGG")
+                console.log(t)
+            } catch (error) {
+                console.log('>>>>>')
+                console.log(error)
+            }
         }
 
         let result = main();
