@@ -43,15 +43,13 @@ Promise.prototype.then = function (onResolved, onRejected) {
     // 符合Promise A+标准
     // then 的返回应该是一个Promise对象
     return new Promise((resolve, reject) => {
-        // 本来内部是直接工作的
-        // 为了返回是Promise对象，需要把内部的逻辑，同步到这个返回Promise中
 
-        // 相当于同步执行的then
-        if (self.PromiseState === 'fulfilled') {
+        // 封装相同逻辑
+        function callback(type) {
             try {
                 // 要根据这个then运行的结果，来决定返回的Promise自己的状态
                 // 这里有个状态同步的过程
-                const result = onResolved(self.PromiseResult)
+                const result = type(self.PromiseResult)
 
                 // PromiseA+标准，不同的对象返回不同的promise
                 if (result instanceof Promise) {
@@ -72,24 +70,16 @@ Promise.prototype.then = function (onResolved, onRejected) {
             }
         }
 
+        // 本来内部是直接工作的
+        // 为了返回是Promise对象，需要把内部的逻辑，同步到这个返回Promise中
+
+        // 相当于同步执行的then
+        if (self.PromiseState === 'fulfilled') {
+            callback(onResolved)
+        }
+
         if (self.PromiseState === 'rejected') {
-            // reject 和 上面resolve保持一致
-            try {
-                const result = onRejected(self.PromiseResult)
-
-                if (result instanceof Promise) {
-
-                    result.then(v => {
-                        resolve(v)
-                    }, r => {
-                        reject(r)
-                    })
-                } else {
-                    reject(result)
-                }
-            } catch (error) {
-                reject(error)
-            }
+            callback(onRejected)
         }
 
 
@@ -100,39 +90,12 @@ Promise.prototype.then = function (onResolved, onRejected) {
                     // 同步和异步任务无意外
                     // 异步任务发起调用
                     // 这里依然通过闭包去修改本次返回Promise的状态
-                    try {
-                        const result = onResolved(self.PromiseResult)
 
-                        if (result instanceof Promise) {
-                            result.then(v => {
-                                resolve(v)
-                            }, r => {
-                                reject(r)
-                            })
-                        } else {
-                            resolve(result)
-                        }
-                    } catch (error) {
-                        reject(error)
-                    }
+                    // 思考：不断地调用预留函数，在时空里，就是延迟计算了，一轮一轮的计算在运算栈里，相当于推迟计算
+                    callback(onResolved)
                 },
                 onRejected: function () {
-                    try {
-                        const result = onRejected(self.PromiseResult)
-
-                        if (result instanceof Promise) {
-
-                            result.then(v => {
-                                resolve(v)
-                            }, r => {
-                                reject(r)
-                            })
-                        } else {
-                            reject(result)
-                        }
-                    } catch (error) {
-                        reject(error)
-                    }
+                    callback(onRejected)
                 }
             })
         }

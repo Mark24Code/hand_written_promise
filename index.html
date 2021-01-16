@@ -14,10 +14,12 @@
         let p = new Promise((resolve, reject) => {
             
             setTimeout(() => {
-                resolve("OK")
+                // resolve("OK")
+                reject("No OK")
+                // throw "hello"
             }, 1000);
+            // throw "hello";
         })
-        console.log(p)
 
 
         // 执行then方法
@@ -34,7 +36,9 @@
 
             // return new Promise(()=> {}); // 测试用例一个pending的
         }, reason => {
-            console.warn(reason)
+            console.log('----fail')
+            console.log(reason)
+            return 999
         })
 
         console.log(result)
