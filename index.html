@@ -11,35 +11,22 @@
     <script>
 
         
-        let p = new Promise((resolve, reject) => {
-            
-            setTimeout(() => {
-                resolve("OK")
-                // reject("No OK")
-                // throw "hello"
-            }, 1000);
-            // throw "hello";
-        })
+        let p = Promise.resolve("OK")
 
-        p.then(value => {
-            console.log('00000')
-            console.log(value)
-        })
-        // 值穿透
-        .then()
-        .then(value=> {
-            console.log(11111)
-            console.log(value)
-        }).then(value=> {
-            console.log(2222222)
-            console.log(value)
-        }).then(value=> {
-            console.log(333333)
-            console.log(value)
-        }).catch(reason => {
-            console.log('---catch')
-            console.log(reason)
-        })
+        console.log(p)
+
+        let p1 = Promise.resolve(new Promise((resolve,reject) => {
+            // resolve('p1 ok')
+            reject('p1 fail')
+        }));
+
+        console.log(p1)
+
+        let p2 = Promise.resolve(new Promise((resolve, reject) => {
+                resolve('p2 ok')
+            }));
+
+        console.log(p2)
     </script>
 </body>
 </html>
