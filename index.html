@@ -14,19 +14,28 @@
         let p = new Promise((resolve, reject) => {
             
             setTimeout(() => {
-                // resolve("OK")
-                reject("No OK")
+                resolve("OK")
+                // reject("No OK")
                 // throw "hello"
             }, 1000);
             // throw "hello";
         })
 
-        p.then(value=> {
+        p.then(value => {
+            console.log('00000')
+            console.log(value)
+        })
+        // 值穿透
+        .then()
+        .then(value=> {
             console.log(11111)
+            console.log(value)
         }).then(value=> {
             console.log(2222222)
+            console.log(value)
         }).then(value=> {
             console.log(333333)
+            console.log(value)
         }).catch(reason => {
             console.log('---catch')
             console.log(reason)

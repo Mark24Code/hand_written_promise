@@ -40,12 +40,22 @@ function Promise(executor) {
 Promise.prototype.then = function (onResolved, onRejected) {
     const self = this;
 
+    // 这里值得一提的是一级一级传递的
+    // 一旦产生rejected，就会沿着所有的rejected一路向下传递
     if(typeof onRejected !== 'function') {
         // 参数没有传的时候，补齐一个参数
         // 通过在中间补齐一个标准参数，这样不需要破坏后面的结构。这也算是一种思想。不需要后面加入if-else
         onRejected = reason => {
             throw reason
         }
+    }
+
+    // 这样相当于提供了 值穿透 的实现
+    // p.then()
+    // .then(val => { ... })
+    // 这样相当于当 空then出现 
+    if(typeof onResolved !== 'function') {
+        onResolved = value => value;
     }
 
     // 符合Promise A+标准
