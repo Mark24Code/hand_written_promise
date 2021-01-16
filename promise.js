@@ -137,3 +137,20 @@ Promise.resolve = function (value) {
         }
     })
 }
+
+Promise.reject = function (value) {
+    return new Promise((resolve, reject) => {
+        if (value instanceof Promise) {
+            value.then(v => {
+                reject(v)
+            }, r => {
+                reject(r)
+            })
+        } else {
+            reject(value)
+        }
+
+        // 另一个实现,但是我觉得上面的更好
+        // reject(value)
+    })
+}

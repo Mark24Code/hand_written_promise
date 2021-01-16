@@ -11,18 +11,18 @@
     <script>
 
         
-        let p = Promise.resolve("OK")
+        let p = Promise.reject("OK")
 
         console.log(p)
 
-        let p1 = Promise.resolve(new Promise((resolve,reject) => {
+        let p1 = Promise.reject(new Promise((resolve,reject) => {
             // resolve('p1 ok')
             reject('p1 fail')
         }));
 
         console.log(p1)
 
-        let p2 = Promise.resolve(new Promise((resolve, reject) => {
+        let p2 = Promise.reject(new Promise((resolve, reject) => {
                 resolve('p2 ok')
             }));
 
