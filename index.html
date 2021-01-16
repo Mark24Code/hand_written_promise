@@ -11,22 +11,22 @@
     <script>
 
         
-        let p = Promise.reject("OK")
+        let p = new Promise((resolve,reject)=>{
+            resolve("p ok")
+        });
 
-        console.log(p)
+        let p1 = Promise.resolve("p1 ok");
 
-        let p1 = Promise.reject(new Promise((resolve,reject) => {
-            // resolve('p1 ok')
-            reject('p1 fail')
-        }));
+        let p2 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve("p2 ok")
+            }, 1000);
+        });
 
-        console.log(p1)
+        console.log(Promise.all)
+        const results = Promise.all([p, p1, p2]);
 
-        let p2 = Promise.reject(new Promise((resolve, reject) => {
-                resolve('p2 ok')
-            }));
-
-        console.log(p2)
+        console.log(results)
     </script>
 </body>
 </html>

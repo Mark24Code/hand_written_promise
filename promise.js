@@ -154,3 +154,28 @@ Promise.reject = function (value) {
         // reject(value)
     })
 }
+
+Promise.all = function (promises = []) {
+    return new Promise((resolve, reject) => {
+        // 声明成功的计数变量
+        let count = 0;
+        // 成功结果变量
+        let arr = [];
+
+        for (let i = 0; i < promises.length; i++) {
+            promises[i].then(v => {
+                count++;
+
+                // arr.push(v) 这个不够完美因为顺序会出问题
+                arr[i] = v; // 按照顺序直接赋值
+
+                if (count === promises.length) {
+                    // 都成功了,可以改变这个Promise的状态
+                    resolve(arr);
+                }
+            }, r => {
+                reject(r)
+            })
+        }
+    })
+}
