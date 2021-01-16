@@ -21,27 +21,16 @@
             // throw "hello";
         })
 
-
-        // 执行then方法
-        // feature: 同步任务then的返回结果
-        // 如果这里返回 非Promise值，则返回一个 fulfilled的Promise
-        // 如果这里返回的是一个Promise就返回这个Promise
-
-        // 目前凡是 then返回的都是promise
-
-       const result = p.then(value => {
-            console.log('1:',value)
-            return 123 // 测试用例
-            // throw "fail" // 测试用例
-
-            // return new Promise(()=> {}); // 测试用例一个pending的
-        }, reason => {
-            console.log('----fail')
+        p.then(value=> {
+            console.log(11111)
+        }).then(value=> {
+            console.log(2222222)
+        }).then(value=> {
+            console.log(333333)
+        }).catch(reason => {
+            console.log('---catch')
             console.log(reason)
-            return 999
         })
-
-        console.log(result)
     </script>
 </body>
 </html>

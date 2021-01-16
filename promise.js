@@ -40,6 +40,14 @@ function Promise(executor) {
 Promise.prototype.then = function (onResolved, onRejected) {
     const self = this;
 
+    if(typeof onRejected !== 'function') {
+        // 参数没有传的时候，补齐一个参数
+        // 通过在中间补齐一个标准参数，这样不需要破坏后面的结构。这也算是一种思想。不需要后面加入if-else
+        onRejected = reason => {
+            throw reason
+        }
+    }
+
     // 符合Promise A+标准
     // then 的返回应该是一个Promise对象
     return new Promise((resolve, reject) => {
@@ -100,4 +108,8 @@ Promise.prototype.then = function (onResolved, onRejected) {
             })
         }
     })
+}
+
+Promise.prototype.catch = function (onRejected) {
+    return this.then(null, onRejected)
 }
