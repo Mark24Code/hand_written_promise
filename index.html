@@ -7,22 +7,27 @@
 </head>
 <body>
 
-    <script src="./promise.js"></script>
+    <!-- <script src="./promise.js"></script> -->
     <script>
 
-        
-        let p = new Promise((resolve,reject)=>{
-              reject("p ok")
-              console.log('1111')
-        });
+        async function main() {
+            // 返回值决定结果是什么
+            // 返回是 非Promise的值，返回的就是fulfilled的promise
+            // 返回的是promise 就是取决于promise的值
 
-        p.then(resolve => {
-            console.log('2222-ok')
-        }, reason => {
-            console.log("222-fail")
-         })
+            // const result = await Promise.resolve("ok")
+            // console.log('---main')
+            // console.log(result)
+            // console.log('---main end--')
+            return new Promise((resolve,reject) => {
+                resolve("failfff")
+            })
+        }
 
-        console.log('33333')
+        let result = main();
+        console.log('result------')
+        console.log(result)
+        console.log('result--=-end')
     </script>
 </body>
 </html>
