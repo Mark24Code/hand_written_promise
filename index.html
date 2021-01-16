@@ -12,21 +12,15 @@
 
         
         let p = new Promise((resolve,reject)=>{
-              setTimeout(() => {
-                resolve("p ok")
-            }, 1000);
+              resolve("p ok")
+              console.log('1111')
         });
 
-        let p11 = Promise.reject("p11 fail");
+        p.then((resolve) => {
+            console.log('2222')
+        })
 
-        let p1 = Promise.resolve("p1 ok");
-        let p2 = new Promise((resolve, reject) => {
-            resolve("p2 ok")
-        });
-
-        const results = Promise.race([p, p1, p11, p2]);
-
-        console.log(results)
+        console.log('33333')
     </script>
 </body>
 </html>

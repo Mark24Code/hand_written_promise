@@ -10,9 +10,11 @@ function Promise(executor) {
         self.PromiseResult = data
         self.PromiseState = 'fulfilled'
 
-        self.callbacks.forEach(item => {
-            item.onResolved(data)
-        })
+        setTimeout(() => {
+            self.callbacks.forEach(item => {
+                item.onResolved(data)
+            })
+        });
     }
 
     function reject(data) {
@@ -24,10 +26,12 @@ function Promise(executor) {
         // 平行注册的then，所有都执行
         // p.then
         // p.then …… 这种 
-        self.callbacks.forEach(item => {
-            item.onRejected(data)
-        })
 
+        setTimeout(() => {
+            self.callbacks.forEach(item => {
+                item.onRejected(data)
+            }) 
+        });
     }
 
     try {
@@ -93,11 +97,15 @@ Promise.prototype.then = function (onResolved, onRejected) {
 
         // 相当于同步执行的then
         if (self.PromiseState === 'fulfilled') {
-            callback(onResolved)
+            setTimeout(() => {
+                callback(onResolved)
+            });
         }
 
         if (self.PromiseState === 'rejected') {
-            callback(onRejected)
+            setTimeout(() => {
+                callback(onRejected)
+            });
         }
 
 
