@@ -1,3 +1,13 @@
-// 原生的 js 进行测试接口结果
-// 用这种接口的结果来对齐自己写的 Promise 结果
-// 所有结果通过了，再使用测试用例，来全面对齐
+
+new Promise((resolve, reject) => {
+  console.log('promise run')
+  resolve(1)
+  // setTimeout(() => {
+  //   resolve(1)
+  // })
+})
+// .then(value => {
+//   console.log(value)
+// }, reason => {
+//   console.log(reason)
+// })
