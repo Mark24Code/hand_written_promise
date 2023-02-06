@@ -1,0 +1,17 @@
+{
+  "name": "handle-promise",
+  "version": "1.0.0",
+  "description": "",
+  "main": "promise.js",
+  "scripts": {
+    "test:index": "node ./index.js",
+    "test:dev": "node ./handle_test.js",
+    "test": "npx promises-aplus-tests ./handle_promise.js",
+    "test:example": "npx promises-aplus-tests ./example/pass_all_test_promise_example.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "promises-aplus-tests": "^2.1.2"
+  }
+}
