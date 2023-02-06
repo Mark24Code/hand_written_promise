@@ -1,22 +1,46 @@
 
+const PENDING = 'pending';
+const FULFILLED = 'fulfilled';
+const REJECTED = 'rejected';
+
 class Promise {
   constructor(exectutor) {
     if(typeof exectutor !== 'function') {
       throw new TypeError(`Promise resolver ${exectutor} is not a function`)
     }
 
-    const resolve = function(value) {
-      // 成功的一系列操作
-    }
 
-    const reject = function(reason) {
-      // 失败的一系列操作
-    }
+    exectutor(this.resolve, this.reject)
+  }
 
-    exectutor(resolve, reject)
+  status = PENDING
+
+  value = undefined
+
+  reason = undefined
+
+  resolve = (value) => {
+    if(this.status === PENDING) {
+      this.status = FULFILLED
+      this.value = value
+    }
+  }
+
+  reject = (reason) => {
+    if(this.status === PENDING) {
+      this.status = REJECTED
+      this.reason = reason
+    }
   }
 
 
+  then(onFulfilled, onRejected) {
+    if(this.status === FULFILLED) {
+      onFulfilled(this.value)
+    } else if (this.status === REJECTED) {
+      onRejected(this.reason)
+    }
+  }
 }
 
 

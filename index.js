@@ -1,18 +1,12 @@
-const Promise = require('./handle_promise.js')
-
-new Promise((resolve, reject) => {
-  console.log('promise run')
-  resolve(1)
-  // setTimeout(() => {
-  //   resolve(1)
-  // })
+const promise = new Promise((resolve, reject) => {
+  resolve('success')
+  reject('err')
 })
-// .then(value => {
-//   console.log(value)
-// }, reason => {
-//   console.log(reason)
-// })
 
+promise.then(value => {
+ console.log('resolve', value)
+}, reason => {
+ console.log('reject', reason)
+})
 
-
-new Promise(1)
+// 输出 resolve success
