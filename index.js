@@ -1,3 +1,4 @@
+const Promise = require('./handle_promise.js')
 
 new Promise((resolve, reject) => {
   console.log('promise run')
@@ -11,3 +12,7 @@ new Promise((resolve, reject) => {
 // }, reason => {
 //   console.log(reason)
 // })
+
+
+
+new Promise(1)
