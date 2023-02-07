@@ -1,12 +1,20 @@
 const promise = new Promise((resolve, reject) => {
-  resolve('success')
-  reject('err')
+  setTimeout(() => {
+    resolve('success')
+  }, 2000);
 })
 
 promise.then(value => {
- console.log('resolve', value)
-}, reason => {
- console.log('reject', reason)
+  console.log(1)
+  console.log('resolve', value)
 })
 
-// 输出 resolve success
+promise.then(value => {
+  console.log(2)
+  console.log('resolve', value)
+})
+
+promise.then(value => {
+  console.log(3)
+  console.log('resolve', value)
+})

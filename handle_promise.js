@@ -19,10 +19,17 @@ class Promise {
 
   reason = undefined
 
+  onFulfilledCallbacks = []
+  onRejectedCallbacks = []
+
+
   resolve = (value) => {
     if(this.status === PENDING) {
       this.status = FULFILLED
       this.value = value
+      while(this.onFulfilledCallbacks.length > 0) {
+        this.onFulfilledCallbacks.shift()(this.value)
+      }
     }
   }
 
@@ -30,6 +37,9 @@ class Promise {
     if(this.status === PENDING) {
       this.status = REJECTED
       this.reason = reason
+      while(this.onRejectedCallbacks.length > 0) {
+        this.onRejectedCallbacks.shift()(this.reason)
+      }
     }
   }
 
@@ -39,9 +49,11 @@ class Promise {
       onFulfilled(this.value)
     } else if (this.status === REJECTED) {
       onRejected(this.reason)
+    } else if (this.status === PENDING) {
+      this.onFulfilledCallbacks.push(onFulfilled);
+      this.onRejectedCallbacks.push(onRejected);
     }
   }
 }
-
 
 module.exports = Promise
