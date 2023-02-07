@@ -139,7 +139,13 @@ class MyPromise {
 
     // 转成常规方式
     return new MyPromise(resolve =>  {
-      resolve(parameter);
+      // resolve 的时候强行加一个微任务的方式
+      // 可以获得了原生一样的顺序
+      //
+      // https://juejin.cn/post/6945319439772434469#heading-31
+      queueMicrotask(() => {
+        resolve(parameter);
+      })
     });
   }
 
