@@ -1,22 +1,20 @@
 const Promise = require('./handle_promise.js')
 
 const promise = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve('success')
-  }, 2000);
+  // 目前这里只处理同步的问题
+  resolve('success')
 })
 
+function other () {
+  return new Promise((resolve, reject) =>{
+    resolve('other')
+  })
+}
 promise.then(value => {
   console.log(1)
   console.log('resolve', value)
-})
-
-promise.then(value => {
+  return other()
+}).then(value => {
   console.log(2)
-  console.log('resolve', value)
-})
-
-promise.then(value => {
-  console.log(3)
   console.log('resolve', value)
 })
