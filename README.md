@@ -134,3 +134,8 @@ promise 那么多链式的 then 除了第一个其他不用看的原因也在这
 思维不会收到影响。
 
 但是扫描 promise.then 代码本身是宏任务会在第一次完成。
+
+
+# 拓展
+
+* [45道Promise面试题](https://github.com/LinDaiDai/niubility-coding-js/blob/master/JavaScript/%E5%BC%82%E6%AD%A5/%E8%A6%81%E5%B0%B1%E6%9D%A545%E9%81%93Promise%E9%9D%A2%E8%AF%95%E9%A2%98%E4%B8%80%E6%AC%A1%E7%88%BD%E5%88%B0%E5%BA%95.md)
