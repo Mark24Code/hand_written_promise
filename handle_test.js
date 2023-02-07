@@ -1,20 +1,37 @@
-const Promise = require('./handle_promise.js')
-
+const Promise = require('./handle_promise')
 const promise = new Promise((resolve, reject) => {
-  // 目前这里只处理同步的问题
-  resolve('success')
-})
+    resolve('success')
+    // throw new Error('执行器错误')
+ })
 
-function other () {
-  return new Promise((resolve, reject) =>{
-    resolve('other')
-  })
-}
+// 第一个then方法中的错误要在第二个then方法中捕获到
 promise.then(value => {
   console.log(1)
   console.log('resolve', value)
-  return other()
-}).then(value => {
+  throw new Error('then error')
+}, reason => {
   console.log(2)
-  console.log('resolve', value)
+  console.log(reason.message)
+}).then(value => {
+  console.log(3)
+  console.log(value);
+}, reason => {
+  console.log(4)
+  console.log(reason.message)
 })
+
+
+
+// const promise = new Promise((resolve, reject) => {
+//   // resolve('success')
+//   throw new Error('执行器错误')
+// })
+
+// promise.then(value => {
+// console.log(1)
+// console.log('resolve', value)
+// }, reason => {
+// console.log(2)
+// console.log(reason.message)
+// })
+
