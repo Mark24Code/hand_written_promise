@@ -2,12 +2,21 @@ const Promise = require('./handle_promise')
 
 
 
-const promise = new Promise((resolve, reject) => {
-  resolve(100)
+Promise.resolve().then(() => {
+  console.log(0);
+  return Promise.resolve(4);
+}).then((res) => {
+  console.log(res)
 })
 
-promise
-  .then()
-  .then()
-  .then()
-  .then(value => console.log(value))
+Promise.resolve().then(() => {
+  console.log(1);
+}).then(() => {
+  console.log(2);
+}).then(() => {
+  console.log(3);
+}).then(() => {
+  console.log(5);
+}).then(() =>{
+  console.log(6);
+})
