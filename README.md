@@ -100,3 +100,37 @@ TODO？
 业务逻辑里最重要的就是 Promise 进行请求时候的代码了。
 
 务必搞定。
+
+
+4. Promise.then
+
+内部是有一个微任务来执行内容的。
+
+Promise.resolve 创建了2次微任务
+
+https://juejin.cn/post/6953452438300917790
+
+
+5. ME 思考 多个 .then
+
+每一个 then 都会返回一个 Promise
+
+如果 Promise 是 fullfilled 就会传值下去执行
+
+如果是 连着多个往往后面会产生 数个 pending 的promise
+
+他们没有名字，但是以闭包的形式关联存在在内存中。
+并且可以保持调用关系
+
+（就是 then 里面的 promise2）
+
+直到微任务队列开始工作，逐步执行每一个 then 内部回调 ，开始从内存中逐个的调取对象，逐个 promise 化的执行。
+
+每个 promise 都创建在堆中。
+
+只有 微任务的回调工作在任务栈 中，准备吊起之前 的promise。
+
+promise 那么多链式的 then 除了第一个其他不用看的原因也在这里。
+思维不会收到影响。
+
+但是扫描 promise.then 代码本身是宏任务会在第一次完成。
